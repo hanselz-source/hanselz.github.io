@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+		rel="stylesheet">
+	<title>WireGuard Secure Remote Access Gateway</title>
+	<meta name="description" content="A detailed write-up of building a WireGuard VPN gateway on a Raspberry Pi." />
+	<link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+	<link rel="stylesheet" href="../style.css" />
+</head>
+
+<body>
+	<header class="wrap header">
+		<div>
+			<a href="../index.html" class="back-link">&larr; Back to home</a>
+			<h1 class="project-page-title">WireGuard Secure Remote Access Gateway</h1>
+			<p class="tagline">Raspberry Pi &middot; WireGuard &middot; SSH &middot; iptables</p>
+		</div>
+		<div class="links">
+			<button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">&#x1f319;</button>
+		</div>
+	</header>
+
+	<main class="wrap">
+		<article class="project-article">
+
+			<section class="card fade-in">
+				<h2>Overview</h2>
+				<p>The goal of this project was to build a secure, self-hosted remote access solution that would let me
+					reach my home network from anywhere without exposing services directly to the internet. I chose
+					WireGuard for its simplicity, speed, and modern cryptographic design, running on a Raspberry Pi as a
+					lightweight always-on gateway.</p>
+			</section>
+
+			<section class="card fade-in">
+				<h2>Architecture</h2>
+				<div class="network-diagram">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560"
+						font-family="Inter, -apple-system, system-ui, sans-serif">
+						<defs>
+							<filter id="shadow" x="-4%" y="-4%" width="108%" height="112%">
+								<feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#00000018" />
+							</filter>
+						</defs>
+						<!-- Background -->
+						<rect class="diagram-bg" width="900" height="560" rx="16" />
+						<!-- Title -->
+						<text class="diagram-title" x="450" y="42" text-anchor="middle" font-size="20" font-weight="700"
+							style="white-space: pre;">Remote Access Gateway - Network Diagram</text>
+						<!-- WireGuard Tunnel Overlay -->
+						<rect class="diagram-tunnel" x="70" y="135" width="760" height="290" rx="16" stroke-width="1.5"
+							stroke-dasharray="8 4" />
+						<text class="diagram-tunnel-label" x="450" y="62.941" text-anchor="middle" font-size="13"
+							font-weight="600" style="white-space: pre;">WireGuard Tunnel · 10.0.0.0/24</text>
+
+						<!-- System 1 (MacBook) -->
+						<g transform="matrix(1, 0, 0, 1, -51.067753, 70.587677)">
+							<g filter="url(#shadow)" transform="matrix(1, 0, 0, 1, 0, 24.370255)">
+								<rect class="diagram-card" x="159.111" y="121.952" width="250" height="130" rx="12" />
+								<g transform="matrix(1, 0, 0, 1, 282.331573, 135.164139)">
+									<rect x="-14" y="0" width="28" height="18" rx="3" fill="none"
+										class="diagram-icon-stroke" stroke-width="1.8" />
+									<line x1="-17.555" y1="23.263" x2="18.445" y2="23.263" class="diagram-icon-stroke"
+										stroke-width="2" stroke-linecap="round" />
+								</g>
+								<text class="diagram-text-primary" x="284.081" y="178.015" text-anchor="middle"
+									font-size="14" font-weight="600">MacBook</text>
+								<text class="diagram-text-muted" x="284.555" y="195.11" text-anchor="middle"
+									font-size="11">LAN: 192.168.2.1</text>
+								<text class="diagram-text-accent" x="283.607" y="213.27" text-anchor="middle"
+									font-size="11" font-weight="500">WireGuard: 10.0.0.2</text>
+								<text class="diagram-text-muted" x="283.133" y="231.43" text-anchor="middle"
+									font-size="11">WireGuard Client</text>
+							</g>
+						</g>
+
+						<!-- Raspberry Pi -->
+						<g filter="url(#shadow)" transform="matrix(1, 0, 0, 1, -48.932232, 95.042091)">
+							<rect class="diagram-card" x="589.702" y="120" width="250" height="130" rx="12" />
+							<g transform="matrix(1, 0, 0, 1, 710.213989, 136.177872)">
+								<rect x="-12" y="0" width="24" height="18" rx="2" fill="#16a34a" />
+								<rect x="-8" y="3" width="4" height="4" rx="1" fill="#fff" />
+								<rect x="0" y="3" width="4" height="4" rx="1" fill="#fff" />
+								<rect x="-8" y="10" width="4" height="4" rx="1" fill="#fff" />
+								<rect x="0" y="10" width="4" height="4" rx="1" fill="#fff" />
+								<line x1="15" y1="6" x2="20" y2="6" stroke="#16a34a" stroke-width="1.5" />
+								<line x1="15" y1="12" x2="20" y2="12" stroke="#16a34a" stroke-width="1.5" />
+							</g>
+							<text class="diagram-text-primary" x="713.661" y="172.394" text-anchor="middle"
+								font-size="14" font-weight="600">Raspberry Pi</text>
+							<text class="diagram-text-muted" x="714.405" y="195.289" text-anchor="middle"
+								font-size="11">DHCP: 192.6.2.6</text>
+							<text class="diagram-text-accent" x="715" y="213.317" text-anchor="middle" font-weight="500"
+								font-size="11">WireGuard: 10.0.0.1</text>
+							<text class="diagram-text-muted" x="714.107" y="231.346" text-anchor="middle"
+								font-size="11">WireGuard Server</text>
+						</g>
+
+						<!-- WireGuard label -->
+						<g transform="matrix(1, 0, 0, 1, -46.658451, 33.507683)">
+							<rect x="455.658" y="72" width="82" height="22" rx="6" fill="#7c3aed" />
+							<text x="496.658" y="87" text-anchor="middle" font-size="10" font-weight="600"
+								fill="#fff">WireGuard</text>
+						</g>
+
+						<!-- USB-Ethernet label + line -->
+						<g transform="matrix(1, 0, 0, 1, -44.080078, 8.215516)">
+							<g transform="matrix(1, 0, 0, 1, -7.919921, 90.7845)">
+								<rect x="458" y="159" width="88" height="22" rx="6" fill="#f59e0b" />
+							</g>
+							<text x="494.08" y="264.785" text-anchor="middle" font-size="10" font-weight="600"
+								fill="#fff">USB-Ethernet</text>
+						</g>
+						<path style="fill: none; stroke-width: 2px; stroke: rgb(245, 158, 11);"
+							d="M 357 290.101 L 541.79 290.073" />
+
+						<!-- Router -->
+						<g filter="url(#shadow)" transform="matrix(1, 0, 0, 1, -59.210106, 48.67551)">
+							<rect class="diagram-card" x="60" y="400" width="170" height="110" rx="12" />
+							<g transform="matrix(1, 0, 0, 1, 145.555969, 416.472229)">
+								<rect x="-16" y="0" width="32" height="20" rx="4" fill="#3b82f6" />
+								<circle cx="-8" cy="10" r="2" fill="#fff" />
+								<circle cx="0" cy="10" r="2" fill="#fff" />
+								<circle cx="8" cy="10" r="2" fill="#fff" />
+								<line x1="0" y1="20" x2="0" y2="28" stroke="#3b82f6" stroke-width="2" />
+								<line x1="-10" y1="28" x2="10" y2="28" stroke="#3b82f6" stroke-width="2" />
+							</g>
+							<text class="diagram-text-primary" x="145" y="464" text-anchor="middle" font-size="14"
+								font-weight="600">Router</text>
+							<text class="diagram-text-muted" x="145" y="482" text-anchor="middle" font-size="11">Gateway
+								/ Internet</text>
+							<text class="diagram-text-muted" x="145" y="498" text-anchor="middle"
+								font-size="11">192.168.2.0/24 LAN</text>
+						</g>
+
+						<!-- Wi-Fi line + label -->
+						<path d="M 166.938 452.547 C 192.484 422.17 209.516 384.2 226.547 346.23" fill="none"
+							class="diagram-wifi-line" stroke-width="2.5" stroke-dasharray="6 3" />
+						<g transform="matrix(1, 0, 0, 1, 8.92695, 112.825058)">
+							<g transform="matrix(1, 0, 0, 1, -0.475971, -2.10692)">
+								<rect x="120.813" y="276.054" width="56" height="22" rx="6" fill="#3b82f6" />
+								<g transform="matrix(1, 0, 0, 1, -77.187164, -43.945755)">
+									<text x="226" y="335" text-anchor="middle" font-size="10" font-weight="600"
+										fill="#fff">Wi-Fi</text>
+								</g>
+							</g>
+						</g>
+
+						<!-- Legend -->
+						<g transform="translate(310, 500)">
+							<text class="diagram-text-legend" x="0" y="0" font-size="11" font-weight="600">Legend</text>
+							<line x1="0" y1="18" x2="30" y2="18" stroke="#3b82f6" stroke-width="2.5"
+								stroke-dasharray="6 3" />
+							<text class="diagram-text-legend" x="38" y="22" font-size="11">Wi-Fi (802.11)</text>
+							<line x1="145" y1="18" x2="175" y2="18" stroke="#f59e0b" stroke-width="2.5" />
+							<text class="diagram-text-legend" x="183" y="22" font-size="11">USB-Ethernet (wired)</text>
+							<line x1="340" y1="18" x2="370" y2="18" stroke="#7c3aed" stroke-width="2"
+								stroke-dasharray="5 3" />
+							<text class="diagram-text-legend" x="378" y="22" font-size="11">WireGuard VPN tunnel</text>
+						</g>
+
+						<!-- Border -->
+						<rect width="900" height="560" rx="16" fill="none" stroke="#cbd5e120" stroke-width="1" />
+					</svg>
+				</div>
+				<p>The Raspberry Pi sits on the internal network and acts as the WireGuard endpoint. Remote clients
+					connect through an encrypted tunnel, and traffic is routed through the Pi to reach internal
+					services. The Pi also serves as the SSH jump host.</p>
+			</section>
+
+			<section class="card fade-in">
+				<h2>What I Built</h2>
+
+				<div class="writeup-block">
+					<h3>1. WireGuard Tunnel Setup</h3>
+					<p>Generated key pairs for the server and each client, configured the WireGuard interface on the Pi,
+						and set up peer configurations with restricted <code>AllowedIPs</code> so each client can only
+						reach what it needs. The tunnel uses UDP on a non-standard port to reduce noise from automated
+						scanners.</p>
+				</div>
+
+				<div class="writeup-block">
+					<h3>2. System Hardening</h3>
+					<p>Locked down SSH with key-based authentication only, disabled root login and password auth.
+						Configured <code>iptables</code> rules to drop everything except WireGuard and SSH traffic, with
+						logging enabled for denied packets.</p>
+				</div>
+
+				<div class="writeup-block">
+					<h3>3. Firewall & Routing</h3>
+					<p>Enabled IP forwarding and configured NAT masquerading so tunnel traffic can reach the LAN. Set up
+						split-tunnel routing on the client side so only home network traffic goes through the VPN,
+						keeping general browsing on the local connection for performance.</p>
+				</div>
+			</section>
+
+			<section class="card fade-in">
+				<h2>How It Was Built</h2>
+
+				<div class="writeup-block">
+					<h3>Initial Setup</h3>
+					<p>Using Raspberry Pi Imager, I installed Ubuntu Server 25.10 with SSH
+						enabled and an <code>id_ed25519</code> handshake from System 1 with password authentication
+						disabled.</p>
+					<img src="images/ssh-ubuntu.webp" alt="SSH into Ubuntu Server" class="writeup-img">
+					<p>In order to properly engage SSH on the raspi through the USB-Ethernet adapter, I had
+						to change a
+						number of network settings on System 1. The adapter automatically created its own
+						IP, and using DHCP, the default interface (<code>eth0</code>) on the raspi assigned
+						its own IP on the subnet of the adapter.</p>
+				</div>
+				<img src="images/system-1-adapter.webp" alt="System 1 Adapter Settings" class="writeup-img">
+				<p>Due to the extremes of this IP, I decided to change the IP to the subnet of the local IP address,
+					which was: <code>192.168.2.1</code>. The DHCP of the raspi automatically changed its local IP to:
+					<code>192.168.2.6</code>. As shown by the following output of <code>arp-scan</code>. Also I changed
+					the DNS to <code>8.8.8.8</code> to allow the raspi to route to outside connections.
+				</p>
+				<img src="images/arp-scan.webp" alt="ARP Scan" class="writeup-img">
+				<h3>Installing and Implementing WireGuard</h3>
+				<p>WireGuard was installed on System 1 using <code>brew install wireguard</code> and on the raspi using
+					<code>sudo apt install wireguard</code>. After WireGuard is installed on both systems, it is time to
+					create WireGuard configurations.
+				</p>
+				<div class="config-pair">
+					<figure class="config-figure">
+						<figcaption>System 1 <code>wg0.conf</code></figcaption>
+						<img src="images/system-1-config.webp" alt="System 1 WireGuard config" class="config-img">
+					</figure>
+					<figure class="config-figure">
+						<figcaption>Raspberry Pi <code>wg0.conf</code></figcaption>
+						<img src="images/raspi-config.webp" alt="Raspberry Pi WireGuard config" class="config-img">
+					</figure>
+				</div>
+				<p>Both WireGuard configurations were named <code>wg0.conf</code> to ease any confusions regarding
+					interfaces configurations. Thus with the command <code>sudo wg-quick up wg0</code>, after moving
+					each config to its respective <code>wireguard</code> folder, the gateway is now open.</p>
+				<p>System 1 <code>sudo wg show</code></p>
+				<img src="images/system-1-show.webp" alt="System 1 Handshake" class="config-img">
+				<p>Raspberry Pi <code>sudo wg show</code></p>
+				<img src="images/rapi-show.webp" alt="Raspberry Pi Handshake" class="config-img">
+				<p>Confirmation to show that the handshake is working. WireGuard should show that there is a transfer
+					sent to both sides.</p>
+				<h3>System Hardening</h3>
+				<p>With the tunnel working, the next step was locking down the raspi so it isn't exposed
+					to unnecessary risk. The first target was SSH. I edited <code>/etc/ssh/sshd_config</code>
+					to disable password authentication entirely and block root login, leaving key-based
+					auth as the only way in.</p>
+				<img src="images/sshd-config.webp" alt="sshd_config hardening changes" class="writeup-img">
+				<p>After restarting the SSH daemon with <code>sudo systemctl restart sshd</code>, I verified
+					that password login attempts were rejected and only the <code>id_ed25519</code> key
+					from System 1 was accepted.</p>
+				<p>Next I set up <code>iptables</code> rules on the raspi to drop all inbound traffic
+					except WireGuard (UDP port 51820) and SSH. Everything else gets dropped by default,
+					and denied packets are logged so I can review them later.</p>
+				<img src="images/iptables-rules.webp" alt="iptables rules configuration" class="writeup-img">
+				<p>To make the rules persist across reboots, I saved them with
+					<code>sudo iptables-save > /etc/iptables/rules.v4</code> and installed the
+					<code>iptables-persistent</code> package.
+				</p>
+				<h3>Firewall & Routing</h3>
+				<p>With the tunnel up and the raspi locked down, the last piece was making sure traffic
+					could actually flow from WireGuard clients through to the home LAN. By default, Linux
+					does not forward packets between interfaces, so the first step was enabling IP
+					forwarding by adding <code>net.ipv4.ip_forward=1</code> in
+					<code>/etc/sysctl.conf</code> and applying it with
+					<code>sudo sysctl -p</code>.
+				</p>
+				<img src="images/sysctl-forward.webp" alt="Enabling IP forwarding in sysctl.conf" class="writeup-img">
+				<p>Next I added <code>iptables</code> rules to the FORWARD chain to allow traffic
+					originating from the WireGuard interface (<code>wg0</code>) to pass through to the
+					LAN, and to allow return traffic for established connections back into the tunnel.
+					Without these, packets would arrive at the raspi and get dropped even though the INPUT
+					chain was fine.</p>
+				<img src="images/forward-rules.webp" alt="iptables FORWARD chain rules" class="writeup-img">
+				<p>For the LAN to actually respond to tunnel clients, I set up NAT masquerading on
+					the outbound interface with
+					<code>iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE</code>. This rewrites
+					the source address of tunnel traffic to the raspi's LAN IP, so other devices on the
+					network see the requests as coming from the raspi itself and know where to send replies.
+					Without masquerading, responses would be addressed to the <code>10.0.0.0/24</code>
+					subnet, which the LAN has no route to.
+				</p>
+				<img src="images/nat-masquerade.webp" alt="iptables NAT POSTROUTING masquerade rule"
+					class="writeup-img">
+				<p>On the client side, I configured split-tunnel routing so that only traffic destined
+					for the home network (<code>192.168.2.0/24</code>) gets routed through the VPN. This
+					was done by setting <code>AllowedIPs = 192.168.2.0/24, 10.0.0.0/24</code> in
+					System 1's <code>wg0.conf</code> rather than using <code>0.0.0.0/0</code>, which
+					would route all traffic through the tunnel. The result is that browsing and general
+					internet traffic stays on the local connection for speed, while home network access
+					goes through WireGuard.</p>
+				<p>After confirming that System 1 could reach devices on the home LAN through the
+					tunnel, I saved the full ruleset again with
+					<code>sudo iptables-save > /etc/iptables/rules.v4</code> to make sure the
+					forwarding and NAT rules persisted alongside the hardening rules from earlier.
+				</p>
+			</section>
+
+			<section class="card fade-in">
+				<h2>Conclusion</h2>
+				<p>This project gave me a working, self-hosted VPN that I can rely on to securely
+					access my home network from anywhere.</p>
+				<p>Beyond just getting remote access working, the process taught me a lot about how
+					Linux networking actually operates under the hood. Configuring IP forwarding,
+					writing iptables rules across multiple chains, and debugging NAT masquerading
+					forced me to understand packet flow.</p>
+				<p>If I revisit this project, I would like to add automatic key rotation, set up
+					monitoring to track tunnel uptime and throughput,
+					and explore adding a second raspi as a failover node. For now, though, the setup
+					is solid and does exactly what I need.</p>
+			</section>
+
+			<section class="card fade-in">
+				<h2>Tools Used</h2>
+				<div class="tools-grid">
+					<span class="tool-pill">WireGuard</span>
+					<span class="tool-pill">Raspberry Pi OS</span>
+					<span class="tool-pill">iptables</span>
+					<span class="tool-pill">SSH</span>
+					<span class="tool-pill">Bash scripting</span>
+					<span class="tool-pill">systemd</span>
+				</div>
+			</section>
+		</article>
+
+		<footer class="footer">
+			<a href="../index.html" class="back-link">&larr; Back to home</a>
+		</footer>
+	</main>
+
+	<script src="../js/scroll-reveal.js" defer></script>
+	<script src="../js/theme-toggle.js" defer></script>
+
+</body>
+
+</html>

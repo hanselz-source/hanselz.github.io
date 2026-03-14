@@ -9,21 +9,23 @@
 	<link
 		href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
 		rel="stylesheet">
-	<title>Zachariah Hansel</title>
+	<title></title>
 	<meta name="description" content="Cybersecurity (USF), Japanese Language Study Club President." />
+	<link rel="icon" href="favicon.svg" type="image/svg+xml" />
 	<link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
 	<header class="wrap header">
 		<div>
-			<h1 class="name">Zachariah Hansel</h1>
+			<h1 class="name"></h1>
 			<p class="tagline">Cybersecurity • USF • Japanese Language</p>
 		</div>
 
 		<div class="links">
-			<a href="https://github.com/hanselz-source" target="_blank" rel="me">GitHub</a>
-			<a href="mailto:04.19hanselz@gmail.com">Email</a>
+			<a href="https:" target="_blank" rel="me">GitHub</a>
+			<a href="mailto:">Email</a>
+			<button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">&#x1f319;</button>
 		</div>
 	</header>
 
@@ -37,7 +39,26 @@
 
 	<main class="wrap">
 		<div class="deck-stage">
-			<section id="education" class="card">
+			<section id="about" class="card about-card fade-in">
+				<h2>Hey, I'm Mud.</h2>
+				<p>I'm a cybersecurity student at the University of South Florida with a thing for breaking down how
+					systems work (and how they break). Outside of class I run the Japanese Language Study Club, tinker
+					with my home lab, and study Japanese. I spent a summer at Sophia University in Tokyo, and that
+					experience shaped how I think about communication and problem-solving across cultures.</p>
+			</section>
+
+			<section id="now" class="card now-card fade-in">
+				<h2>What I'm Up To Right Now</h2>
+				<p class="now-updated">Updated March 2026</p>
+				<ul class="now-list">
+					<li><span class="now-emoji">&#8210;</span> Steadily improving this website.</li>
+					<li><span class="now-emoji">&#8210;</span> Learning malware analysis and cryptography
+					</li>
+					<li><span class="now-emoji">&#8210;</span> Preparing for the JLPT N2 exam</li>
+				</ul>
+			</section>
+
+			<section id="education" class="card fade-in">
 				<h2>Education</h2>
 
 				<div class="item">
@@ -47,50 +68,59 @@
 					</div>
 					<p class="sub">College of Engineering • B.S. in Cybersecurity • GPA: 3.54/4.00</p>
 					<ul>
-						<li><strong>Relevant Coursework:</strong> Advanced Program Design (C), Object Oriented
-							Programming
-							(Python), Information Security and IT Risk Management, Hands-On Cybersecurity</li>
+						<strong>Relevant Coursework</strong>
+						<ul>
+							Information Security and IT Risk Management,
+							Hands-On Cybersecurity,
+							Advanced Program Design (C), Object Oriented Programming (Python)</li>
+						</ul>
 					</ul>
 				</div>
+
+				<br>
 
 				<div class="item">
 					<div class="row">
 						<h3>Sophia University, Tokyo, Japan</h3>
 						<span class="right">July 2024</span>
 					</div>
-					<p class="sub">Summer Session in Japanese Language • GPA: 4.00/4.00</p>
+					<p class="sub">Summer Session in Japanese Language</p>
 				</div>
 			</section>
 
-			<section id="skills" class="card">
+			<section id="skills" class="card fade-in">
 				<h2>Technical Skills</h2>
 				<div class="grid">
 					<div>
-						<h3 class="k">Operating Systems</h3>
-						<p>Linux (Kali / Ubuntu), Windows, macOS</p>
+						<h3 class="k">Security & Risk</h3>
+						<p>Security controls, risk management, vulnerability assessment, security auditing, network
+							analysis, systems administration, compliance documentation</p>
 					</div>
 					<div>
-						<h3 class="k">Scripting & Programming</h3>
-						<p>Python, Bash, C, JavaScript, SQL, Lua</p>
-					</div>
-					<div>
-						<h3 class="k">Cybersecurity</h3>
-						<p>Network analysis, system hardening, access controls, security auditing, vulnerability
-							assessment
+						<h3 class="k">Frameworks & Standards</h3>
+						<p>NIST CSF, risk management frameworks
 						</p>
 					</div>
 					<div>
-						<h3 class="k">Tools</h3>
-						<p>Wireshark, Nmap, Snort, SSH, Metasploit</p>
+						<h3 class="k">Programming & Scripting</h3>
+						<p>Python, Bash, SQL, C, JavaScript, Lua</p>
 					</div>
 					<div>
-						<h3 class="k">Currently Studying</h3>
-						<p>Cryptography, malware analysis</p>
+						<h3 class="k">Operating Systems</h3>
+						<p>Windows, Linux (Ubuntu, Kali), macOS</p>
+					</div>
+					<div>
+						<h3 class="k">Security Tools</h3>
+						<p>Wireshark, Nmap, Snort (IDS), SSH, Metasploit, WireGuard VPN</p>
+					</div>
+					<div>
+						<h3 class="k">Productivity</h3>
+						<p>Microsoft Office Suite (Word, Excel, PowerPoint)</p>
 					</div>
 				</div>
 			</section>
 
-			<section id="leadership" class="card">
+			<section id="leadership" class="card fade-in">
 				<h2>Leadership & Involvement</h2>
 
 				<div class="item">
@@ -99,12 +129,13 @@
 						<span class="right">Jan 2026 – Present</span>
 					</div>
 					<ul>
-						<li>Led 5+ officers and 100+ members through initiatives supporting Japanese language
-							engagement,
-							cultural exchange, and an inclusive learning community.</li>
-						<li>Coordinate events, manage communications, and guide the club’s strategic direction.</li>
-						<li>Collaborate across disciplines while rapidly acquiring operational skills through hands-on
-							leadership responsibilities.</li>
+						<li>Lead 5+ officers and oversee operations for 100+ members; manage communications, coordinate
+							multiple concurrent projects, and maintain high attention to detail across all
+							organizational
+							functions.</li>
+						<li>Collaborate across diverse teams and disciplines, demonstrating adaptability, initiative,
+							and
+							strong interpersonal skills in a client-facing leadership role.</li>
 					</ul>
 				</div>
 
@@ -114,45 +145,106 @@
 						<span class="right">Apr 2024 – Jan 2026</span>
 					</div>
 					<ul>
-						<li>Managed financial operations and created the organization’s first formal budget.</li>
-						<li>Tracked income/expenditures, coordinated reimbursements, and ensured compliance with
-							university
-							financial policies and audit requirements for 100+ members and recurring events.</li>
+						<li>Built the organization’s first formal budget and financial tracking system; managed all
+							income, expenditures, and reimbursement documentation with strong attention to detail and
+							organizational skills.</li>
+						<li>Ensured full compliance with university financial policies and audit requirements,
+							developing
+							practical experience in analytical problem-solving, accountability, and multi-tasking in a
+							fast-paced environment.</li>
 					</ul>
 				</div>
 			</section>
 
-			<section id="projects" class="card">
+			<section id="projects" class="card fade-in">
 				<h2>Projects</h2>
 
-				<div class="item">
-					<div class="row">
-						<h3>WireGuard + SSH Secure Remote Access (Raspberry Pi)</h3>
-						<span class="right">Project</span>
+				<a href="projects/wireguard.html" class="project-tile">
+					<div class="project-tile-header">
+						<div>
+							<h3>WireGuard Secure Remote Access Gateway</h3>
+							<p class="project-tech">WireGuard &middot; Raspberry Pi &middot; SSH &middot; iptables</p>
+						</div>
+						<span class="project-arrow">&rarr;</span>
 					</div>
-					<ul>
-						<li>Designed and deployed a WireGuard-based secure remote access gateway to enable encrypted
-							access
-							to internal services.</li>
-						<li>Implemented key-based authentication, restricted AllowedIPs, firewall rules, and SSH
-							hardening
-							to reduce attack surface on untrusted networks.</li>
-					</ul>
+					<p class="project-summary">Built a self-hosted encrypted tunnel on a Raspberry Pi to secure remote
+						access across untrusted networks. Includes full hardening, firewall rules, and technical
+						documentation.</p>
+				</a>
+			</section>
+
+			<section id="languages" class="card fade-in">
+				<h2>Languages</h2>
+				<p><strong>Japanese:</strong> Professional working proficiency</p>
+			</section>
+
+			<section id="certs" class="card fade-in">
+				<h2>Certifications & Goals</h2>
+				<div class="roadmap">
+					<div class="roadmap-item">
+						<div class="roadmap-marker in-progress">&#x25B6;</div>
+						<div class="roadmap-info">
+							<h3>CompTIA Security+</h3>
+							<p>Core security concepts, threats, architecture, operations</p>
+						</div>
+						<span class="roadmap-status in-progress">Studying</span>
+					</div>
+					<div class="roadmap-item">
+						<div class="roadmap-marker planned"></div>
+						<div class="roadmap-info">
+							<h3>CompTIA CySA+</h3>
+							<p>Security analytics, threat detection, incident response</p>
+						</div>
+						<span class="roadmap-status planned">Planned</span>
+					</div>
+					<div class="roadmap-item">
+						<div class="roadmap-marker in-progress">&#x25B6;</div>
+						<div class="roadmap-info">
+							<h3>JLPT N2</h3>
+							<p>Japanese Language Proficiency Test, upper-intermediate</p>
+						</div>
+						<span class="roadmap-status in-progress">Studying</span>
+					</div>
+					<div class="roadmap-item">
+						<div class="roadmap-marker planned"></div>
+						<div class="roadmap-info">
+							<h3>JLPT N1</h3>
+							<p>Japanese Language Proficiency Test, advanced</p>
+						</div>
+						<span class="roadmap-status planned">Planned</span>
+					</div>
 				</div>
 			</section>
 
-			<section id="languages" class="card">
-				<h2>Languages</h2>
-				<p><strong>Japanese:</strong> Professional working proficiency</p>
+			<section id="blog" class="card fade-in">
+				<h2>Notes & Write-ups</h2>
+				<p class="blog-intro">Occasional posts about things I'm learning, building, or thinking about.</p>
+
+				<a href="posts/nvim.html" class="blog-entry">
+					<span class="blog-date">Mar 2026</span>
+					<span class="blog-title">Switching to NVIM</span>
+					<span class="blog-tag">home-lab</span>
+				</a>
+			</section>
+
+			<section id="contact" class="card contact-card fade-in">
+				<h2>Let's Connect</h2>
+				<p>Always happy to talk about security, Japanese, home lab setups, or anything in between. The best way
+					to reach me is email, but I'm around on GitHub too.</p>
+				<div class="contact-links">
+					<a href="mailto:" class="contact-btn">Send me an email</a>
+					<a href="https:" target="_blank" rel="me" class="contact-btn">View my GitHub</a>
+				</div>
 			</section>
 		</div>
 
 		<footer class="footer">
-			<p>Last updated: <span id="updated"></span></p>
 		</footer>
 	</main>
 
 	<script src="js/last-updated.js" defer></script>
+	<script src="js/scroll-reveal.js" defer></script>
+	<script src="js/theme-toggle.js" defer></script>
 
 </body>
 
