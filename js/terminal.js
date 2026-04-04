@@ -402,7 +402,7 @@
 		data.certs.forEach((c) => {
 			let dot, tag;
 			if (c.status === "Acquired") {
-				dot = `<span class="roadmap-dot acquired">&#10003;</span>`;
+				dot = `<span class="roadmap-dot acquired">&#10004;</span>`;
 				tag = `<span class="roadmap-status-tag acquired">${c.status}</span>`;
 			} else if (c.status === "Studying") {
 				dot = `<span class="roadmap-dot active">&#9654;</span>`;

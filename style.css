@@ -38,7 +38,8 @@
 	padding: 0;
 }
 
-html, body {
+html,
+body {
 	height: 100%;
 	overflow: hidden;
 }
@@ -105,9 +106,17 @@ body::before {
 	transition: opacity 0.2s;
 }
 
-.light.red { background: #ff5f57; }
-.light.yellow { background: #febc2e; }
-.light.green { background: #28c840; }
+.light.red {
+	background: #ff5f57;
+}
+
+.light.yellow {
+	background: #febc2e;
+}
+
+.light.green {
+	background: #28c840;
+}
 
 .terminal-title {
 	flex: 1;
@@ -227,19 +236,57 @@ body::before {
 }
 
 /* ---- Text Styles ---- */
-.t-green { color: var(--term-green); }
-.t-blue { color: var(--term-blue); }
-.t-purple { color: var(--term-purple); }
-.t-yellow { color: var(--term-yellow); }
-.t-red { color: var(--term-red); }
-.t-cyan { color: var(--term-cyan); }
-.t-orange { color: var(--term-orange); }
-.t-muted { color: var(--term-muted); }
-.t-bright { color: var(--term-bright); }
-.t-mint { color: var(--term-mint); }
-.t-bold { font-weight: 700; }
-.t-dim { opacity: 0.5; }
-.t-underline { text-decoration: underline; }
+.t-green {
+	color: var(--term-green);
+}
+
+.t-blue {
+	color: var(--term-blue);
+}
+
+.t-purple {
+	color: var(--term-purple);
+}
+
+.t-yellow {
+	color: var(--term-yellow);
+}
+
+.t-red {
+	color: var(--term-red);
+}
+
+.t-cyan {
+	color: var(--term-cyan);
+}
+
+.t-orange {
+	color: var(--term-orange);
+}
+
+.t-muted {
+	color: var(--term-muted);
+}
+
+.t-bright {
+	color: var(--term-bright);
+}
+
+.t-mint {
+	color: var(--term-mint);
+}
+
+.t-bold {
+	font-weight: 700;
+}
+
+.t-dim {
+	opacity: 0.5;
+}
+
+.t-underline {
+	text-decoration: underline;
+}
 
 /* ---- Section Headers (inside output) ---- */
 .section-header {
@@ -351,6 +398,10 @@ body::before {
 	color: var(--term-green);
 }
 
+.roadmap-dot.acquired {
+	color: var(--term-cyan);
+}
+
 .roadmap-dot.planned {
 	color: var(--term-muted);
 }
@@ -363,6 +414,11 @@ body::before {
 	font-size: 12px;
 	padding: 1px 8px;
 	border-radius: 4px;
+}
+
+.roadmap-status-tag.acquired {
+	color: var(--term-cyan);
+	border: 1px solid rgba(100, 200, 255, 0.3);
 }
 
 .roadmap-status-tag.studying {
@@ -638,8 +694,15 @@ body::before {
 
 /* ---- Cursor blink ---- */
 @keyframes blink {
-	0%, 100% { opacity: 1; }
-	50% { opacity: 0; }
+
+	0%,
+	100% {
+		opacity: 1;
+	}
+
+	50% {
+		opacity: 0;
+	}
 }
 
 #command-input:focus {
@@ -699,14 +762,18 @@ body::before {
 		gap: 6px;
 	}
 
-	.term-key, .help-cmd {
+	.term-key,
+	.help-cmd {
 		min-width: 12ch;
 	}
 }
 
 /* ---- Reduced Motion ---- */
 @media (prefers-reduced-motion: reduce) {
-	*, *::before, *::after {
+
+	*,
+	*::before,
+	*::after {
 		transition-duration: 0.01ms !important;
 		animation-duration: 0.01ms !important;
 	}
