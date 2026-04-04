@@ -28,7 +28,11 @@
 		<div class="terminal-body" id="terminal">
 			<div id="output"></div>
 			<div class="input-line" id="input-line">
-				<span class="prompt">visitor@hanselz.dev:~$&nbsp;</span>
+				<script>
+					const now = new Date();
+					document.getElementById("input-line").innerHTML = `<span style="color: #00afff;"> [ ${now.getHours()}:${now.getMinutes()} ]</span>`;
+				</script>
+				<span class="prompt"> visitor < ~&nbsp;> ==> </span>
 				<input type="text" id="command-input" autofocus autocomplete="off" spellcheck="false"
 					aria-label="Terminal command input">
 			</div>

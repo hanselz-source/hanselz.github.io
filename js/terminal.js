@@ -67,7 +67,7 @@
 		const block = document.createElement("div");
 		block.className = "output-block";
 		block.innerHTML =
-			`<div class="cmd-echo"><span class="prompt">visitor@hanselz.dev:~$&nbsp;</span><span class="cmd-text">${escHtml(cmd)}</span></div>` +
+			`<div class="cmd-echo"><span class="prompt">visitor@hanselz.dev: \< ~$&nbsp; \></span><span class="cmd-text">${escHtml(cmd)}</span></div>` +
 			(result ? `<div class="cmd-result">${result}</div>` : "");
 		output.appendChild(block);
 		scrollToBottom();
@@ -704,7 +704,7 @@ or anything in between.
 		input.disabled = true;
 		setupInput();
 		boot();
-		setInterval(applyTimeTheme, 60000);
+		applyTimeTheme();
 	}
 
 	if (document.readyState === "loading") {
