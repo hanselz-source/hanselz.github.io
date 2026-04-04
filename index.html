@@ -6,248 +6,36 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link
-		href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+	<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap"
 		rel="stylesheet">
-	<title>Zachariah Hansel</title>
+	<title>hanselz@portfolio</title>
 	<meta name="description" content="Cybersecurity (USF), Japanese Language Study Club President." />
 	<link rel="icon" href="favicon.svg" type="image/svg+xml" />
 	<link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-	<header class="wrap header">
-		<div>
-			<h1 class="name">Zachariah Hansel</h1>
-			<p class="tagline">Cybersecurity • USF • Japanese Language</p>
+	<div class="terminal-window">
+		<div class="terminal-titlebar">
+			<div class="traffic-lights">
+				<span class="light red"></span>
+				<span class="light yellow"></span>
+				<span class="light green"></span>
+			</div>
+			<span class="terminal-title" id="terminal-title">visitor@hanselz.dev: ~</span>
+			<div class="titlebar-spacer"></div>
 		</div>
-
-		<div class="links">
-			<a href="https://github.com/hanselz-source" target="_blank" rel="me">GitHub</a>
-			<a href="mailto:hanselz@usf.edu">Email</a>
-			<button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">&#x1f319;</button>
+		<div class="terminal-body" id="terminal">
+			<div id="output"></div>
+			<div class="input-line" id="input-line">
+				<span class="prompt">visitor@hanselz.dev:~$&nbsp;</span>
+				<input type="text" id="command-input" autofocus autocomplete="off" spellcheck="false"
+					aria-label="Terminal command input">
+			</div>
 		</div>
-	</header>
+	</div>
 
-	<!-- <nav class="table-contents"> -->
-	<!-- 	<a href="#education">Education</a> -->
-	<!-- 	<a href="#skills">Skills</a> -->
-	<!-- 	<a href="#leadership">Leadership</a> -->
-	<!-- 	<a href="#projects">Projects</a> -->
-	<!-- 	<a href="#languages">Languages</a> -->
-	<!-- </nav> -->
-
-	<main class="wrap">
-		<div class="deck-stage">
-			<section id="about" class="card about-card fade-in">
-				<h2>Hey, I'm Zach.</h2>
-				<p>I'm a cybersecurity student at the University of South Florida with a thing for breaking down how
-					systems work (and how they break). Outside of class I run the Japanese Language Study Club, tinker
-					with my home lab, and study Japanese. I spent a summer at Sophia University in Tokyo, and that
-					experience shaped how I think about communication and problem-solving across cultures.</p>
-			</section>
-
-			<section id="now" class="card now-card fade-in">
-				<h2>What I'm Up To Right Now</h2>
-				<p class="now-updated">Updated March 2026</p>
-				<ul class="now-list">
-					<li><span class="now-emoji">&#8210;</span> Studying towards CompTIA Security+.</li>
-					<li><span class="now-emoji">&#8210;</span> Steadily improving this website.</li>
-					<li><span class="now-emoji">&#8210;</span> Learning malware analysis and cryptography
-					</li>
-					<li><span class="now-emoji">&#8210;</span> Preparing for the JLPT N2 exam</li>
-				</ul>
-			</section>
-
-			<section id="education" class="card fade-in">
-				<h2>Education</h2>
-
-				<div class="item">
-					<div class="row">
-						<h3>University of South Florida (USF), Tampa, FL</h3>
-						<span class="right">Expected June 2027</span>
-					</div>
-					<p class="sub">College of Engineering • B.S. in Cybersecurity • GPA: 3.54/4.00</p>
-					<ul>
-						<strong>Relevant Coursework</strong>
-						<ul>
-							Information Security and IT Risk Management,
-							Hands-On Cybersecurity,
-							Advanced Program Design (C), Object Oriented Programming (Python)</li>
-						</ul>
-					</ul>
-				</div>
-
-				<br>
-
-				<div class="item">
-					<div class="row">
-						<h3>Sophia University, Tokyo, Japan</h3>
-						<span class="right">July 2024</span>
-					</div>
-					<p class="sub">Summer Session in Japanese Language</p>
-				</div>
-			</section>
-
-			<section id="skills" class="card fade-in">
-				<h2>Technical Skills</h2>
-				<div class="grid">
-					<div>
-						<h3 class="k">Security & Risk</h3>
-						<p>Security controls, risk management, vulnerability assessment, security auditing, network
-							analysis, systems administration, compliance documentation</p>
-					</div>
-					<div>
-						<h3 class="k">Frameworks & Standards</h3>
-						<p>NIST CSF, risk management frameworks
-						</p>
-					</div>
-					<div>
-						<h3 class="k">Programming & Scripting</h3>
-						<p>Python, Bash, SQL, C, JavaScript, Lua</p>
-					</div>
-					<div>
-						<h3 class="k">Operating Systems</h3>
-						<p>Windows, Linux (Ubuntu, Kali), macOS</p>
-					</div>
-					<div>
-						<h3 class="k">Security Tools</h3>
-						<p>Wireshark, Nmap, Snort (IDS), SSH, Metasploit, WireGuard VPN</p>
-					</div>
-					<div>
-						<h3 class="k">Productivity</h3>
-						<p>Microsoft Office Suite (Word, Excel, PowerPoint)</p>
-					</div>
-				</div>
-			</section>
-
-			<section id="leadership" class="card fade-in">
-				<h2>Leadership & Involvement</h2>
-
-				<div class="item">
-					<div class="row">
-						<h3>President — Japanese Language Study Club (JLSC), University of South Florida</h3>
-						<span class="right">Jan 2026 – Present</span>
-					</div>
-					<ul>
-						<li>Lead 5+ officers and oversee operations for 100+ members; manage communications, coordinate
-							multiple concurrent projects, and maintain high attention to detail across all
-							organizational
-							functions.</li>
-						<li>Collaborate across diverse teams and disciplines, demonstrating adaptability, initiative,
-							and
-							strong interpersonal skills in a client-facing leadership role.</li>
-					</ul>
-				</div>
-
-				<div class="item">
-					<div class="row">
-						<h3>Treasurer — Japanese Language Study Club (JLSC), University of South Florida</h3>
-						<span class="right">Apr 2024 – Jan 2026</span>
-					</div>
-					<ul>
-						<li>Built the organization’s first formal budget and financial tracking system; managed all
-							income, expenditures, and reimbursement documentation with strong attention to detail and
-							organizational skills.</li>
-						<li>Ensured full compliance with university financial policies and audit requirements,
-							developing
-							practical experience in analytical problem-solving, accountability, and multi-tasking in a
-							fast-paced environment.</li>
-					</ul>
-				</div>
-			</section>
-
-			<section id="projects" class="card fade-in">
-				<h2>Projects</h2>
-
-				<a href="projects/wireguard.html" class="project-tile">
-					<div class="project-tile-header">
-						<div>
-							<h3>WireGuard Secure Remote Access Gateway</h3>
-							<p class="project-tech">WireGuard &middot; Raspberry Pi &middot; SSH &middot; iptables</p>
-						</div>
-						<span class="project-arrow">&rarr;</span>
-					</div>
-					<p class="project-summary">Built a self-hosted encrypted tunnel on a Raspberry Pi to secure remote
-						access across untrusted networks. Includes full hardening, firewall rules, and technical
-						documentation.</p>
-				</a>
-			</section>
-
-			<section id="languages" class="card fade-in">
-				<h2>Languages</h2>
-				<p><strong>Japanese:</strong> Professional working proficiency</p>
-			</section>
-
-			<section id="certs" class="card fade-in">
-				<h2>Certifications & Goals</h2>
-				<div class="roadmap">
-					<div class="roadmap-item">
-						<div class="roadmap-marker in-progress">&#x25B6;</div>
-						<div class="roadmap-info">
-							<h3>ISC2 - Certified in Cybersecurity (CC)</h3>
-							<p>Security domains, access control, cryptography, and risk management</p>
-						</div>
-						<span class="roadmap-status in-progress">Obtained</span>
-					</div>
-					<div class="roadmap-item">
-						<div class="roadmap-marker in-progress">&#x25B6;</div>
-						<div class="roadmap-info">
-							<h3>CompTIA Security+</h3>
-							<p>Core security concepts, threats, architecture, operations</p>
-						</div>
-						<span class="roadmap-status in-progress">Studying</span>
-					</div>
-					<div class="roadmap-item">
-						<div class="roadmap-marker in-progress">&#x25B6;</div>
-						<div class="roadmap-info">
-							<h3>JLPT N2</h3>
-							<p>Japanese Language Proficiency Test, upper-intermediate</p>
-						</div>
-						<span class="roadmap-status in-progress">Studying</span>
-					</div>
-					<div class="roadmap-item">
-						<div class="roadmap-marker planned"></div>
-						<div class="roadmap-info">
-							<h3>JLPT N1</h3>
-							<p>Japanese Language Proficiency Test, advanced</p>
-						</div>
-						<span class="roadmap-status planned">Planned</span>
-					</div>
-				</div>
-			</section>
-
-			<section id="blog" class="card fade-in">
-				<h2>Notes & Write-ups</h2>
-				<p class="blog-intro">Occasional posts about things I'm learning, building, or thinking about.</p>
-
-				<a href="posts/nvim.html" class="blog-entry">
-					<span class="blog-date">Mar 2026</span>
-					<span class="blog-title">Switching to NVIM</span>
-					<span class="blog-tag">home-lab</span>
-				</a>
-			</section>
-
-			<section id="contact" class="card contact-card fade-in">
-				<h2>Let's Connect</h2>
-				<p>Always happy to talk about security, Japanese, home lab setups, or anything in between. The best way
-					to reach me is email, but I'm around on GitHub too.</p>
-				<div class="contact-links">
-					<a href="mailto:hanselz@usf.edu" class="contact-btn">Send me an email</a>
-					<a href="https://github.com/hanselz-source" target="_blank" rel="me" class="contact-btn">View my
-						GitHub</a>
-				</div>
-			</section>
-		</div>
-
-		<footer class="footer">
-		</footer>
-	</main>
-
-	<script src="js/last-updated.js" defer></script>
-	<script src="js/scroll-reveal.js" defer></script>
-	<script src="js/theme-toggle.js" defer></script>
-
+	<script src="js/terminal.js" defer></script>
 </body>
 
 </html>

@@ -6,8 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link
-		href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+	<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap"
 		rel="stylesheet">
 	<title>Switching to NVIM</title>
 	<meta name="description" content="Detailing the switch from Visual Studio Code (VSCODE) to Neovim (NVIM)" />
@@ -16,49 +15,116 @@
 </head>
 
 <body>
-	<header class="wrap header">
-		<div>
-			<a href="../index.html" class="back-link">&larr; Back to home</a>
-			<h1 class="project-page-title">Switching to NVIM</h1>
-			<p class="tagline">Mar 2026 &middot; home_lab</p>
+	<div class="terminal-window">
+		<div class="terminal-titlebar">
+			<div class="traffic-lights">
+				<span class="light red"></span>
+				<span class="light yellow"></span>
+				<span class="light green"></span>
+			</div>
+			<span class="terminal-title">visitor@hanselz.dev: ~/blog/nvim</span>
+			<div class="titlebar-spacer"></div>
 		</div>
-		<div class="links">
-			<button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">&#x1f319;</button>
+		<div class="terminal-body" id="terminal">
+			<div id="output"></div>
+			<div class="input-line" id="input-line">
+				<span class="prompt">visitor@hanselz.dev:~/blog$&nbsp;</span>
+				<input type="text" id="command-input" autofocus autocomplete="off" spellcheck="false"
+					aria-label="Terminal command input">
+			</div>
 		</div>
-	</header>
+	</div>
 
-	<main class="wrap">
-		<article class="project-article">
+	<script>
+		(function () {
+			const $ = s => document.querySelector(s);
+			const output = $("#output");
+			const input = $("#command-input");
+			const terminal = $("#terminal");
 
-			<section class="card fade-in">
-				<h2>Overview</h2>
-				<p><!-- Write your intro here: why you decided to write this post, what the reader will get out of it --></p>
-			</section>
+			const hour = new Date().getHours();
+			document.documentElement.setAttribute("data-time", (hour < 6 || hour >= 18) ? "night" : "day");
 
-			<!-- Add more sections as you go. Example starter blocks:
+			function scrollToBottom() { terminal.scrollTop = terminal.scrollHeight; }
 
-			<section class="card fade-in">
-				<h2>Your Section Title</h2>
-				<p></p>
-			</section>
+			function print(html) {
+				const div = document.createElement("div");
+				div.className = "output-block";
+				div.innerHTML = html;
+				output.appendChild(div);
+				scrollToBottom();
+			}
 
-			<section class="card fade-in">
-				<h2>Another Section</h2>
-				<p></p>
-			</section>
+			function printLines(lines, delay) {
+				return new Promise(resolve => {
+					let i = 0;
+					(function next() {
+						if (i >= lines.length) return resolve();
+						print(lines[i++]);
+						setTimeout(next, delay);
+					})();
+				});
+			}
 
-			-->
+			async function boot() {
+				const bootLines = [
+					`<span class="boot-line"><span class="boot-label">Reading post:</span> <span class="t-green">switching-to-nvim</span></span>`,
+					`<span class="boot-line"><span class="boot-label">Loading...</span> <span class="boot-ok">done</span></span>`,
+					``,
+				];
+				await printLines(bootLines, 50);
 
-		</article>
+				print(`<div class="output-block"><div class="cmd-echo"><span class="prompt">visitor@hanselz.dev:~/blog$&nbsp;</span><span class="cmd-text">cat switching-to-nvim.md</span></div><div class="cmd-result"><span class="writeup-h2">Switching to NVIM</span>
+<span class="t-muted">Mar 2026 | home-lab</span>
 
-		<footer class="footer">
-			<a href="../index.html" class="back-link">&larr; Back to home</a>
-		</footer>
-	</main>
+<span class="t-yellow">[ Work in progress ]</span>
+<span class="t-muted">This post is currently being written. Check back soon.</span></div></div>`);
 
-	<script src="../js/scroll-reveal.js" defer></script>
-	<script src="../js/theme-toggle.js" defer></script>
+				print(`\n<span class="t-muted">Type</span> <span class="t-green">back</span> <span class="t-muted">to return home.</span>`);
+				input.disabled = false;
+				input.focus();
+			}
 
+			const history = [];
+			let historyIndex = -1;
+			input.disabled = true;
+
+			input.addEventListener("keydown", function (e) {
+				if (e.key === "Enter") {
+					e.preventDefault();
+					const val = input.value.trim().toLowerCase();
+					input.value = "";
+					if (!val) return;
+					history.push(val);
+					historyIndex = history.length;
+					if (val === "back" || val === "cd .." || val === "home") {
+						window.location.href = "../index.html";
+					} else if (val === "clear") {
+						output.innerHTML = "";
+					} else {
+						const block = document.createElement("div");
+						block.className = "output-block";
+						block.innerHTML = `<div class="cmd-echo"><span class="prompt">visitor@hanselz.dev:~/blog$&nbsp;</span><span class="cmd-text">${val}</span></div><div class="cmd-result"><span class="t-red">Command not found.</span> <span class="t-muted">Type</span> <span class="t-green">back</span> <span class="t-muted">to return home.</span></div>`;
+						output.appendChild(block);
+					}
+					scrollToBottom();
+				} else if (e.key === "ArrowUp") {
+					e.preventDefault();
+					if (historyIndex > 0) { historyIndex--; input.value = history[historyIndex]; }
+				} else if (e.key === "ArrowDown") {
+					e.preventDefault();
+					if (historyIndex < history.length - 1) { historyIndex++; input.value = history[historyIndex]; }
+					else { historyIndex = history.length; input.value = ""; }
+				}
+			});
+
+			terminal.addEventListener("click", function (e) {
+				if (!e.target.closest("a")) input.focus();
+			});
+
+			boot();
+		})();
+	</script>
 </body>
 
 </html>
