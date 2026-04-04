@@ -64,15 +64,24 @@
 	}
 
 	function printCommand(cmd, result) {
+		const now = new Date();
+		const hh = now.getHours();
+		const mm = now.getMinutes();
+
 		const block = document.createElement("div");
 		block.className = "output-block";
 		block.innerHTML =
-			`<div class="cmd-echo"><span class="prompt">visitor@hanselz.dev: \< ~$&nbsp; \></span><span class="cmd-text">${escHtml(cmd)}</span></div>` +
+			`<div class="cmd-echo">` +
+			`<span class="prompt">[ ${hh}:${mm} ]</span>` +
+			`<span style="color: #ffaf00;">&nbsp;visitor&nbsp;</span>` +
+			`<span class="prompt">&lt;&nbsp;<span style="color: #808080">~</span>&nbsp;&gt;&nbsp;==&gt;&nbsp;</span>` +
+			`<span class="cmd-text">${escHtml(cmd)}</span>` +
+			`</div>` +
 			(result ? `<div class="cmd-result">${result}</div>` : "");
+
 		output.appendChild(block);
 		scrollToBottom();
 	}
-
 	// =============================================
 	//  Lightweight Markdown -> Terminal HTML
 	// =============================================

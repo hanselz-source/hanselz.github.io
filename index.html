@@ -30,9 +30,10 @@
 			<div class="input-line" id="input-line">
 				<script>
 					const now = new Date();
-					document.getElementById("input-line").innerHTML = `<span style="color: #00afff;"> [ ${now.getHours()}:${now.getMinutes()} ]</span>`;
+					document.getElementById("input-line").innerHTML = `<span class="prompt">[&nbsp;${now.getHours()}:${now.getMinutes()}&nbsp;]</span>`;
 				</script>
-				<span class="prompt"> visitor < ~&nbsp;> ==> </span>
+				<span style="color: #ffaf00;">&nbsp;visitor&nbsp;</span>
+				<span class="prompt"><&nbsp;<span style="color: #808080">~</span>&nbsp;>&nbsp;==>&nbsp;</span>
 				<input type="text" id="command-input" autofocus autocomplete="off" spellcheck="false"
 					aria-label="Terminal command input">
 			</div>
